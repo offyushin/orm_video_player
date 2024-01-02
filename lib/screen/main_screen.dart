@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vid_player/widgets/appname_widget.dart';
+import 'package:vid_player/widgets/getboxdeco.dart';
 import 'package:vid_player/widgets/logo_widget.dart';
-import 'package:video_player/video_player.dart';
+import 'package:vid_player/widgets/video_player_widget.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,13 +18,13 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
-      body: video == null ? renderEmpty() : rederVideo(),
+      body: video == null ? renderEmpty() : renderVideo(),
     );
   }
 
-  Widget rederEmpty() {
+  Widget renderEmpty() {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: getBoxDecoration(),
@@ -31,9 +34,10 @@ class _MainScreenState extends State<MainScreen> {
           Logo(
             onTap: onNewVideoPressed,
           ),
-          SizedBox(
+          const SizedBox(
             height: 30.0,
           ),
+          const Appname(),
         ],
       ),
     );
@@ -47,5 +51,14 @@ class _MainScreenState extends State<MainScreen> {
         this.video = video;
       });
     }
+  }
+
+  Widget renderVideo() {
+    return Center(
+      child: CustomVideoPlayer(
+        video: video!,
+        onNewVideoPressed: () {},
+      ),
+    );
   }
 }
