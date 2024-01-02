@@ -1,7 +1,9 @@
+import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vid_player/widgets/button_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class CustomVideoPlayer extends StatefulWidget {
@@ -16,6 +18,7 @@ class CustomVideoPlayer extends StatefulWidget {
 
 class _CustomVideoPlayer extends State<CustomVideoPlayer> {
   VideoPlayerController? videoController;
+  bool showControls = true;
 
   @override
   void didUpdateWidget(covariant CustomVideoPlayer oldWidget) {
@@ -50,26 +53,31 @@ class _CustomVideoPlayer extends State<CustomVideoPlayer> {
 
     return AspectRatio(
       aspectRatio: videoController!.value.aspectRatio,
-      child: Stack(children: [
-        VideoPlayer(videoController!),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          left: 0,
-          child: Slider(
-            value: videoController!.value.position.inSeconds.toDouble(),
-            onChanged: (double val) {
-              videoController!.seekTo(Duration(seconds: val.toInt()));
-            },
-            min: 0,
-            max: videoController!.value.duration.inSeconds.toDouble(),
+      child: Stack(
+        children: [
+          VideoPlayer(videoController!),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: Slider(
+              value: videoController!.value.position.inSeconds.toDouble(),
+              onChanged: (double val) {
+                videoController!.seekTo(Duration(seconds: val.toInt()));
+              },
+              min: 0,
+              max: videoController!.value.duration.inSeconds.toDouble(),
+            ),
           ),
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: ,
-        ),
-      ]),
+          Align(
+            alignment: Alignment.topRight,
+            child: CustomIconButton(
+              onPressed: widget.onNewVideoPressed,
+              iconData: Icons.photo_camera_back,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
