@@ -78,13 +78,13 @@ class _CustomVideoPlayer extends State<CustomVideoPlayer> {
               ),
             ),
             if (showControls)
-            Align(
-              alignment: Alignment.topRight,
-              child: CustomIconButton(
-                onPressed: widget.onNewVideoPressed,
-                iconData: Icons.photo_camera_back,
+              Align(
+                alignment: Alignment.topRight,
+                child: CustomIconButton(
+                  onPressed: widget.onNewVideoPressed,
+                  iconData: Icons.photo_camera_back,
+                ),
               ),
-            ),
             if (showControls)
               Align(
                 alignment: Alignment.center,
@@ -92,11 +92,16 @@ class _CustomVideoPlayer extends State<CustomVideoPlayer> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CustomIconButton(
-                        onPressed: onReversePressed, iconData: Icons.rotate_left),
+                        onPressed: onReversePressed,
+                        iconData: Icons.rotate_left),
                     CustomIconButton(
-                        onPressed: onPlayPressed, iconData: videoController!.value.isPlaying
-                    ? Icons.pause
-                    : Icons.play_arrow),
+                        onPressed: onForwardPressed,
+                        iconData: videoController!.value.isPlaying
+                            ? Icons.pause
+                            : Icons.play_arrow),
+                    CustomIconButton(
+                        onPressed: onForwardPressed,
+                        iconData: Icons.rotate_left),
                   ],
                 ),
               ),
@@ -105,6 +110,7 @@ class _CustomVideoPlayer extends State<CustomVideoPlayer> {
       ),
     );
   }
+
   void onReversePressed() {
     final currentPosition = videoController!.value.position;
     Duration position = Duration();
@@ -113,13 +119,14 @@ class _CustomVideoPlayer extends State<CustomVideoPlayer> {
     }
     videoController!.seekTo(position);
   }
-  void onPlayPressed() {
+
+  void onForwardPressed() {
     final maxPosition = videoController!.value.duration;
     final currentPosition = videoController!.value.position;
     Duration position = maxPosition;
 
     if ((maxPosition - Duration(seconds: 3)).inSeconds >
-    currentPosition.inSeconds) {
+        currentPosition.inSeconds) {
       position = currentPosition + Duration(seconds: 3);
     }
     videoController!.seekTo(position);
