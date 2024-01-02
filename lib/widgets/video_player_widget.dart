@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -94,6 +93,10 @@ class _CustomVideoPlayer extends State<CustomVideoPlayer> {
                   children: [
                     CustomIconButton(
                         onPressed: onReversePressed, iconData: Icons.rotate_left),
+                    CustomIconButton(
+                        onPressed: onPlayPressed, iconData: videoController!.value.isPlaying
+                    ? Icons.pause
+                    : Icons.play_arrow),
                   ],
                 ),
               ),
@@ -108,6 +111,17 @@ class _CustomVideoPlayer extends State<CustomVideoPlayer> {
     if (currentPosition.inSeconds > 3) {
       position = currentPosition - Duration(seconds: 3);
     }
-    videoController.seekTo(position);
+    videoController!.seekTo(position);
+  }
+  void onPlayPressed() {
+    final maxPosition = videoController!.value.duration;
+    final currentPosition = videoController!.value.position;
+    Duration position = maxPosition;
+
+    if ((maxPosition - Duration(seconds: 3)).inSeconds >
+    currentPosition.inSeconds) {
+      position = currentPosition + Duration(seconds: 3);
+    }
+    videoController!.seekTo(position);
   }
 }
